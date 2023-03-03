@@ -1,0 +1,97 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div>
+    <label for="">Nombre</label>
+    <input formControlName="name" type="text" />
+
+    <div *ngIf="formName?.invalid && (formName?.dirty || formName?.touched)" style="color: red;">
+      <div *ngIf="formName?.errors?.['minlength']">
+        Debe tener mas de 4 digitos
+      </div>
+      <div *ngIf="formName?.errors?.['required']">
+        El campo es requerido
+      </div>
+    </div>
+
+
+  </div>
+
+  <div>
+    <label for="">Apellido</label>
+    <input formControlName="lastName" type="text" />
+
+    <div *ngIf="formLastName?.invalid && (formLastName?.dirty || formLastName?.touched)" style="color: red;">
+      <div *ngIf="formLastName?.errors?.['minlength']">
+        Debe tener mas de 4 digitos
+      </div>
+      <div *ngIf="formName?.errors?.['required']">
+        El campo es requerido
+      </div>
+    </div>
+
+  </div>
+
+  <div>
+    <label for="">Edad</label>
+    <input formControlName="age" type="number"/>
+    <div *ngIf="formAge?.invalid && (formAge?.dirty || formAge?.touched)" style="color: red;">
+      <div *ngIf="formAge?.errors?.['min']">
+        debe ser mayor de 18 años
+      </div>
+      <div *ngIf="formAge?.errors?.['required']">
+        El campo es requerido
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="">Fecha de nacimiento</label>
+    <input formControlName="dateBorn" type="date" [max]="today" />
+  </div>
+
+  <div>
+    <label for="">Fecha inscripcion</label>
+    <input formControlName="dateInscription" [min]="dateMinInscription" type="date" />
+  </div>
+
+  <div>
+    <label for="">costo</label>
+    <input formControlName="cost" type="number"/>
+  </div>
+
+  <input type="submit"  [disabled]="form.invalid" [value]="clientSelected ? 'Actualizar' : 'Agregar nuevo' " />
+</form>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let item of headerTable">{{ item }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="listClients.length < 0; else showList">
+      No existen Product en lista
+    </tr>
+    <ng-template #showList>
+      <tr *ngFor="let client of listClients">
+        <td>{{ client.nameComplete }}</td>
+        <td>{{client.age}}</td>
+        <td>{{client.cost}}</td>
+        <td>{{client.dateBorn | date: 'MM/dd/yyyy'}}</td>
+        <td><button (click)="editProduct(client._id)" >Editar</button></td>
+        <td><button (click)="deleteClient(client._id)" >Eliminar</button></td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>
+
+<router-outlet></router-outlet>
